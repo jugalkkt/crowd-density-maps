@@ -37,8 +37,8 @@ output **1/4 of the input resolution**, which is why targets are reduced by
 ## Setup
 
 ```bash
-git clone <this-repo> crowd-counting-mcnn
-cd crowd-counting-mcnn
+git clone https://github.com/jugalkkt/crowd-density-maps.git
+cd crowd-density-maps
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pytest                 # ~60 tests, all CPU, under a minute

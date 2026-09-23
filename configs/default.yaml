@@ -1,0 +1,60 @@
+# Default configuration for crowd counting with MCNN.
+# Every path and hyperparameter lives here; override from the CLI with
+#   --set train.lr=1e-4 --set data.part=A
+
+paths:
+  # Root of the *raw* ShanghaiTech download. The loader searches this tree
+  # case-insensitively for `part_A` / `part_B`, so Kaggle mirrors with a
+  # different top-level folder name work unchanged.
+  raw_data_dir: data/raw
+  processed_dir: data/processed
+  checkpoint_dir: checkpoints
+  output_dir: outputs
+
+data:
+  part: B              # "A" (dense crowds) or "B" (sparser street scenes)
+  crop_size: 256       # training random-crop size (square)
+  val_fraction: 0.1    # fraction of the train split held out for validation
+  downsample: 4        # MCNN output stride
+
+density:
+  mode: fixed          # "adaptive" (Part A default) or "fixed" (Part B default)
+  fixed_sigma: 4.0     # sigma used by `fixed` mode and as the 1-point fallback
+  beta: 0.3            # adaptive: sigma = beta * mean distance to k neighbours
+  k_neighbors: 3
+  truncate: 3.0        # kernel radius in units of sigma
+
+train:
+  epochs: 400
+  batch_size: 1        # MCNN is trained on single crops in the original paper
+  lr: 1.0e-5
+  weight_decay: 0.0
+  optimizer: adam      # "adam" or "sgd"
+  momentum: 0.9        # only used by sgd
+  seed: 42
+  num_workers: 2
+  log_every: 20        # iterations between training-loss log lines
+  density_scale: 1.0   # multiply targets by this; divide predictions back out
+  loss_reduction: sum_over_batch  # "sum_over_batch" (default) or "mean"
+  amp: true            # mixed precision when running on CUDA
+  scheduler: plateau   # "plateau" or "none"
+  scheduler_patience: 20
+  scheduler_factor: 0.5
+  val_every: 1         # epochs between validation passes
+  viz_every: 10        # epochs between saved val visualisation PNGs
+  augment:
+    hflip: true
+    color_jitter: 0.0  # brightness/contrast/saturation strength, 0 disables
+    grayscale_prob: 0.0
+
+inference:
+  max_side: 1024       # longest side after resizing, keeps aspect ratio
+  overlay_alpha: 0.5
+  video_frame_stride: 5
+  video_max_frames: 900
+
+demo:
+  checkpoint_a: checkpoints/part_A/best.pth
+  checkpoint_b: checkpoints/part_B/best.pth
+  enable_video: false
+  examples_dir: app/examples

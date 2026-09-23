@@ -1,0 +1,35 @@
+# Data and artefacts (anchored to the repo root: src/data/ is source code)
+/data/
+/checkpoints/
+/outputs/
+/runs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+
+# Tooling
+.pytest_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Credentials
+kaggle.json
+
+# Demo example images (dataset content, not ours to redistribute)
+app/examples/*.jpg
+app/examples/*.jpeg
+app/examples/*.png

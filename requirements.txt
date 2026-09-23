@@ -1,0 +1,26 @@
+# Core deep learning
+torch>=2.1
+torchvision>=0.16
+
+# Data / math
+numpy>=1.24
+scipy>=1.10
+h5py>=3.9
+
+# Images / video
+opencv-python-headless>=4.8
+Pillow>=10.0
+matplotlib>=3.7
+
+# Config
+PyYAML>=6.0
+
+# Progress / logging
+tqdm>=4.66
+tensorboard>=2.14
+
+# Web demo
+gradio>=4.0
+
+# Testing
+pytest>=7.4
